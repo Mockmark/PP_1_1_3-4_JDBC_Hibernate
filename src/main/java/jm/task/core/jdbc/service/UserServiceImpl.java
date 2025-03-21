@@ -12,20 +12,24 @@ public class UserServiceImpl implements UserService {
         this.userDaoJDBC = new UserDaoJDBCImpl();
     }
 
+    @Override
     public void createUsersTable() {
         userDaoJDBC.createUsersTable();
     }
 
+    @Override
     public void dropUsersTable() {
         userDaoJDBC.dropUsersTable();
     }
 
+    @Override
     public void saveUser(String name, String lastName, byte age) {
-
+        userDaoJDBC.saveUser(name, lastName, age);
     }
 
+    @Override
     public void removeUserById(long id) {
-
+        userDaoJDBC.removeUserById(id);
     }
 
     public List<User> getAllUsers() {

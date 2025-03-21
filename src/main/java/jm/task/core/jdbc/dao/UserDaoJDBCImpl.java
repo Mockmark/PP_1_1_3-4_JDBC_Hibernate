@@ -4,6 +4,7 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -29,9 +30,11 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             System.out.println("Something went wrong with executing SQL-query: "
                     + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
+    @Override
     public void dropUsersTable() {
         String SQL = "DROP TABLE IF EXISTS `db`.`users`;";
         try (Connection connection = Util.getConnection();
@@ -40,15 +43,44 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e) {
             System.out.println("Something went wrong with executing SQL-query: "
                     + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
+    @Override
     public void saveUser(String name, String lastName, byte age) {
-
+        String SQL = "INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)";
+        try (Connection connection = Util.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setByte(3, age);
+            int rows = preparedStatement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("User " + name + " added to table");
+            }
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with executing SQL-query: "
+                    + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
+    @Override
     public void removeUserById(long id) {
-
+        String SQL = "DELETE FROM users WHERE id = ?";
+        try (Connection connection = Util.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
+            preparedStatement.setLong(1, id);
+            int rows = preparedStatement.executeUpdate();
+            if (rows > 0) {
+                System.out.println("User " + id + " removed from table");
+            }
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with executing SQL-query: "
+                    + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     public List<User> getAllUsers() {
