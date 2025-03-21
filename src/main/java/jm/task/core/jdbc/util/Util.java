@@ -9,19 +9,13 @@ public class Util {
     private static final String USER = "AAAA";
     private static final String PASSWORD = "impish donator versus uncouple bath subside";
 
-    public static Connection getConnection() {
-        Connection connection = null;
+    public static Connection getConnection() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            System.out.println("Driver was not loaded. " + e.getMessage());
+            System.out.println("Driver was not loaded: " + e.getMessage());
         }
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
-            connection = conn;
-        } catch (SQLException e) {
-            System.out.println("Connection failed. " + e.getMessage());
-        }
-        return connection;
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
