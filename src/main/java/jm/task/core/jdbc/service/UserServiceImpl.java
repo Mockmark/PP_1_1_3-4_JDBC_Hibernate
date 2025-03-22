@@ -32,10 +32,12 @@ public class UserServiceImpl implements UserService {
         userDaoJDBC.removeUserById(id);
     }
 
+    @Override
     public List<User> getAllUsers() {
         return userDaoJDBC.getAllUsers();
     }
 
+    @Override
     public void cleanUsersTable() {
         userDaoJDBC.cleanUsersTable();
     }

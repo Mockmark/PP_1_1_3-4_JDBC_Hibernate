@@ -87,6 +87,7 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
+    @Override
     public List<User> getAllUsers() {
         String SQL = "SELECT * FROM users";
         List<User> users = new ArrayList<>();
@@ -109,6 +110,7 @@ public class UserDaoJDBCImpl implements UserDao {
         return users;
     }
 
+    @Override
     public void cleanUsersTable() {
         String SQL = "TRUNCATE TABLE users;";
         try (Connection connection = Util.getConnection();
