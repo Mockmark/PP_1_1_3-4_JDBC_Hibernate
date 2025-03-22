@@ -24,10 +24,7 @@ public class UserDaoJDBCImpl implements UserDao {
                   PRIMARY KEY (`id`));""";
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
-            int rows = statement.executeUpdate(SQL);
-            if (rows > 0) {
-                System.out.printf("Created %d rows.\n", rows);
-            }
+            statement.execute(SQL);
         } catch (SQLException e) {
             System.out.println("Something went wrong with executing SQL-query: "
                     + e.getMessage());
@@ -40,10 +37,7 @@ public class UserDaoJDBCImpl implements UserDao {
         String SQL = "DROP TABLE IF EXISTS `db`.`users`;";
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
-            int rows = statement.executeUpdate(SQL);
-            if (rows > 0) {
-                System.out.println("Dropped " + rows + " rows.");
-            }
+            statement.executeUpdate(SQL);
         } catch (SQLException e) {
             System.out.println("Something went wrong with executing SQL-query: "
                     + e.getMessage());
@@ -115,10 +109,7 @@ public class UserDaoJDBCImpl implements UserDao {
         String SQL = "TRUNCATE TABLE users;";
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
-            int rows = statement.executeUpdate(SQL);
-            if (rows > 0) {
-                System.out.println("Cleaned " + rows + " rows.");
-            }
+            statement.executeUpdate(SQL);
         } catch (SQLException e) {
             System.out.println("Something went wrong with executing SQL-query: "
                     + e.getMessage());
