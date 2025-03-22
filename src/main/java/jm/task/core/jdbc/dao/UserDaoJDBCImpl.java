@@ -61,7 +61,7 @@ public class UserDaoJDBCImpl implements UserDao {
             preparedStatement.setByte(3, age);
             int rows = preparedStatement.executeUpdate();
             if (rows > 0) {
-                System.out.println("User " + name + " added to table");
+                System.out.println("User с именем " + name + " добавлен в базу данных");
             }
         } catch (SQLException e) {
             System.out.println("Something went wrong with executing SQL-query: "
@@ -88,7 +88,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public List<User> getAllUsers() {
-        String SQL = "SELECT * FROM users;";
+        String SQL = "SELECT * FROM users";
         List<User> users = new ArrayList<>();
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
@@ -110,6 +110,17 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void cleanUsersTable() {
-
+        String SQL = "TRUNCATE TABLE users;";
+        try (Connection connection = Util.getConnection();
+             Statement statement = connection.createStatement()) {
+            int rows = statement.executeUpdate(SQL);
+            if (rows > 0) {
+                System.out.println("Cleaned " + rows + " rows.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Something went wrong with executing SQL-query: "
+                    + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }
